@@ -1,5 +1,7 @@
 package com.esercizio.HybernateEs1.entities;
 
+import org.hibernate.loader.plan.exec.internal.FetchStats;
+
 import javax.persistence.*;
 import java.util.Optional;
 
@@ -9,10 +11,11 @@ public class Vendita {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    @ManyToOne @JoinColumn(name="nome")
-    private Prodotto prodotto;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Prodotto prodotto;
     private Integer quantita;
+
     public Prodotto getProdotto() {
         return prodotto;
     }
@@ -24,11 +27,6 @@ public class Vendita {
     }
 
     public Vendita(Prodotto prodotto, Integer quantita) {
-        this.prodotto = prodotto;
-        this.quantita = quantita;
-    }
-
-    public Vendita(Optional<Prodotto> optProd, Integer quantita) {
         this.prodotto = prodotto;
         this.quantita = quantita;
     }

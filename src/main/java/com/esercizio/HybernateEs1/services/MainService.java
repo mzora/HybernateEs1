@@ -18,7 +18,7 @@ import java.util.Optional;
 @Configurable
 public class MainService {
     public RispostaVenditaProdotto getVenditeProdotto(Prodotto p){
-        Integer numeroVendite = p.getVendite().stream().reduce(0,(acc,v)->acc+=v.getQuantita(), Integer::sum);
-        return new RispostaVenditaProdotto(numeroVendite, p.getPrezzo().multiply(BigDecimal.valueOf(numeroVendite)));
+        Integer quantitaVendute = p.getVendite().stream().reduce(0,(acc,v)->acc+=v.getQuantita(), Integer::sum);
+        return new RispostaVenditaProdotto(quantitaVendute, p.getPrezzo().multiply(BigDecimal.valueOf(quantitaVendute)));
     }
 }

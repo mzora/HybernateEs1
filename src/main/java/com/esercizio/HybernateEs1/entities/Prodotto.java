@@ -6,28 +6,26 @@ import java.util.*;
 
 @Entity
 public class Prodotto {
-    private static List<Vendita> vendite =new ArrayList<>();
     @Id @GeneratedValue(
             strategy = GenerationType.AUTO
     )
     @Column(
-            name = "id",
             updatable = false,
             nullable = false
     )
     private Long id;
+
     @Column(
-            name = "Nome",
             unique = true
     )
     private String nome;
-    @Column(
-            name = "prezzo",
-            nullable = false
-    )
+
+    @Column(nullable = false)
     private BigDecimal prezzo;
 
     @OneToMany(mappedBy = "prodotto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Vendita> vendite =new ArrayList<>();
+
     public List<Vendita> getVendite(){
         return vendite;
     }
@@ -44,5 +42,10 @@ public class Prodotto {
     }
     public BigDecimal getPrezzo() {
         return prezzo;
+    }
+
+    //Sostituita dalla fetch-lazy
+    public void addVendita(Vendita v){
+        vendite.add(v);
     }
 }

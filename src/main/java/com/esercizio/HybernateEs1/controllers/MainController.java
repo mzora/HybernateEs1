@@ -32,13 +32,27 @@ public class MainController {
     {
         Optional<Prodotto> optProd = pr.findByNome(nome);
         if(optProd.isPresent()){
-            vr.save(new Vendita(optProd, quantita));
-            RispostaVenditaProdotto rvp = ms.getVenditeProdotto(optProd.get());
+            Prodotto pOttenuto = optProd.get();
+            Vendita v = new Vendita(pOttenuto, quantita);
+            vr.save(v);
+            return "prodotto venduto";
+        }else{
+            return "prodotto da vendere non trovato";
+        }
+    }
+
+    @GetMapping("/view/{nomeProdotto}")
+    public String viewVendita(@PathVariable("nomeProdotto")String nomeProdotto,
+                              @Autowired MainService ms){
+        Optional<Prodotto> optProd = pr.findByNome(nomeProdotto);
+        if(optProd.isPresent()){
+            Prodotto pOttenuto = optProd.get();
+            RispostaVenditaProdotto rvp = ms.getVenditeProdotto(pOttenuto);
+            System.out.println(pOttenuto.getVendite());
             return "Numero di vendite: "+rvp.getNumeroVendite()+". Ammontare: "+rvp.getAmmontare();
         }else{
             return "Prodotto non presente!";
         }
     }
-
 
 }
